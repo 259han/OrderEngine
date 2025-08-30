@@ -6,8 +6,9 @@
 #include <unordered_map>
 #include <mutex>
 #include <atomic>
-#include "../database/connection_pool.h"
-#include "../cache/cache_manager.h"
+// TODO: 待实现的头文件
+// #include "../database/connection_pool.h"
+// #include "../cache/cache_manager.h"
 
 namespace order_engine {
 namespace services {
@@ -52,8 +53,9 @@ public:
     using InventoryCallback = std::function<void(bool success, const std::string& message)>;
     using QueryCallback = std::function<void(bool success, const InventoryInfo& info)>;
 
-    InventoryService(std::shared_ptr<database::ConnectionPool> db_pool,
-                     std::shared_ptr<cache::CacheManager> cache_manager);
+    // 临时构造函数，后续会替换为完整版本
+    InventoryService(std::shared_ptr<void> db_pool = nullptr,
+                     std::shared_ptr<void> cache_manager = nullptr);
     
     ~InventoryService();
 
@@ -118,8 +120,9 @@ private:
     bool compareAndSwapStock(uint64_t product_id, uint32_t expected_available, 
                             uint32_t new_available, uint32_t expected_version);
     
-    std::shared_ptr<database::ConnectionPool> db_pool_;
-    std::shared_ptr<cache::CacheManager> cache_manager_;
+    // 临时成员变量，后续会替换为正确类型
+    std::shared_ptr<void> db_pool_;
+    std::shared_ptr<void> cache_manager_;
     
     // 预留信息缓存
     std::unordered_map<std::string, ReservationInfo> reservations_;

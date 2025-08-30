@@ -12,7 +12,7 @@ bool Config::load(const std::string& config_file) {
     
     std::ifstream file(config_file);
     if (!file.is_open()) {
-        LOG_ERROR("Failed to open config file: {}", config_file);
+        LOG_ERROR_FMT("Failed to open config file: {}", config_file);
         return false;
     }
     
@@ -74,7 +74,9 @@ bool Config::parseINI(const std::string& content) {
         }
     }
     
-    LOG_INFO("Loaded {} config items from: {}", configs_.size(), config_file_);
+    char buffer[100];
+    snprintf(buffer, sizeof(buffer), "Loaded %zu config items from: %s", configs_.size(), config_file_.c_str());
+    LOG_INFO(buffer);
     return true;
 }
 
@@ -92,8 +94,10 @@ int Config::getInt(const std::string& key, int default_value) const {
     try {
         return std::stoi(value);
     } catch (const std::exception& e) {
-        LOG_WARN("Failed to parse int config: {} = {}, using default: {}", 
-                 key, value, default_value);
+        char buffer[200];
+        snprintf(buffer, sizeof(buffer), "Failed to parse int config: %s = %s, using default: %d", 
+                 key.c_str(), value.c_str(), default_value);
+        LOG_WARN(buffer);
         return default_value;
     }
 }
@@ -107,8 +111,10 @@ double Config::getDouble(const std::string& key, double default_value) const {
     try {
         return std::stod(value);
     } catch (const std::exception& e) {
-        LOG_WARN("Failed to parse double config: {} = {}, using default: {}", 
-                 key, value, default_value);
+        char buffer[200];
+        snprintf(buffer, sizeof(buffer), "Failed to parse double config: %s = %s, using default: %f", 
+                 key.c_str(), value.c_str(), default_value);
+        LOG_WARN(buffer);
         return default_value;
     }
 }
@@ -126,8 +132,10 @@ bool Config::getBool(const std::string& key, bool default_value) const {
     } else if (value == "false" || value == "0" || value == "no" || value == "off") {
         return false;
     } else {
-        LOG_WARN("Failed to parse bool config: {} = {}, using default: {}", 
-                 key, value, default_value);
+        char buffer[200];
+        snprintf(buffer, sizeof(buffer), "Failed to parse bool config: %s = %s, using default: %s", 
+                 key.c_str(), value.c_str(), default_value ? "true" : "false");
+        LOG_WARN(buffer);
         return default_value;
     }
 }

@@ -71,11 +71,11 @@ all: $(TARGET)
 
 # 创建目录
 $(BUILD_DIR) $(BIN_DIR) $(LIB_DIR):
-	@if not exist "$@" mkdir "$@"
+	@mkdir -p "$@"
 
 # 创建子目录 (Phase 1)
 $(BUILD_DIR)/common $(BUILD_DIR)/network: | $(BUILD_DIR)
-	@if not exist "$@" mkdir "$@"
+	@mkdir -p "$@"
 
 # TODO: Phase 2 添加其他目录
 # $(BUILD_DIR)/database $(BUILD_DIR)/cache $(BUILD_DIR)/message \

@@ -40,6 +40,13 @@ public:
     void warn(const std::string& message);
     void error(const std::string& message);
     void critical(const std::string& message);
+    
+    // 简单格式化日志接口（临时解决方案）
+    void debug_fmt(const std::string& format, const std::string& arg);
+    void info_fmt(const std::string& format, const std::string& arg);
+    void error_fmt(const std::string& format, const std::string& arg);
+    void debug_fmt(const std::string& format, const std::string& arg1, const std::string& arg2);
+    void info_fmt(const std::string& format, int arg);
 
     // 性能日志记录
     void logPerformance(const std::string& operation, double duration_ms);
@@ -62,46 +69,24 @@ private:
 };
 
 // 便捷宏定义
-#define LOG_TRACE(...) order_engine::common::Logger::getInstance().trace(__VA_ARGS__)
-#define LOG_DEBUG(...) order_engine::common::Logger::getInstance().debug(__VA_ARGS__)
-#define LOG_INFO(...) order_engine::common::Logger::getInstance().info(__VA_ARGS__)
-#define LOG_WARN(...) order_engine::common::Logger::getInstance().warn(__VA_ARGS__)
-#define LOG_ERROR(...) order_engine::common::Logger::getInstance().error(__VA_ARGS__)
-#define LOG_CRITICAL(...) order_engine::common::Logger::getInstance().critical(__VA_ARGS__)
+#define LOG_TRACE(msg) order_engine::common::Logger::getInstance().trace(msg)
+#define LOG_DEBUG(msg) order_engine::common::Logger::getInstance().debug(msg)
+#define LOG_INFO(msg) order_engine::common::Logger::getInstance().info(msg)
+#define LOG_WARN(msg) order_engine::common::Logger::getInstance().warn(msg)
+#define LOG_ERROR(msg) order_engine::common::Logger::getInstance().error(msg)
+#define LOG_CRITICAL(msg) order_engine::common::Logger::getInstance().critical(msg)
+
+// 格式化日志宏
+#define LOG_DEBUG_FMT(fmt, arg) order_engine::common::Logger::getInstance().debug_fmt(fmt, arg)
+#define LOG_INFO_FMT(fmt, arg) order_engine::common::Logger::getInstance().info_fmt(fmt, arg)
+#define LOG_ERROR_FMT(fmt, arg) order_engine::common::Logger::getInstance().error_fmt(fmt, arg)
+#define LOG_DEBUG_FMT2(fmt, arg1, arg2) order_engine::common::Logger::getInstance().debug_fmt(fmt, arg1, arg2)
+#define LOG_INFO_FMT_INT(fmt, arg) order_engine::common::Logger::getInstance().info_fmt(fmt, arg)
 
 #define LOG_PERF(op, duration) order_engine::common::Logger::getInstance().logPerformance(op, duration)
 #define LOG_BUSINESS(event, data) order_engine::common::Logger::getInstance().logBusiness(event, data)
 
-// 全局便捷函数
-template<typename... Args>
-void trace(const std::string& format, Args&&... args) {
-    Logger::getInstance().trace(format, std::forward<Args>(args)...);
-}
-
-template<typename... Args>
-void debug(const std::string& format, Args&&... args) {
-    Logger::getInstance().debug(format, std::forward<Args>(args)...);
-}
-
-template<typename... Args>
-void info(const std::string& format, Args&&... args) {
-    Logger::getInstance().info(format, std::forward<Args>(args)...);
-}
-
-template<typename... Args>
-void warn(const std::string& format, Args&&... args) {
-    Logger::getInstance().warn(format, std::forward<Args>(args)...);
-}
-
-template<typename... Args>
-void error(const std::string& format, Args&&... args) {
-    Logger::getInstance().error(format, std::forward<Args>(args)...);
-}
-
-template<typename... Args>
-void critical(const std::string& format, Args&&... args) {
-    Logger::getInstance().critical(format, std::forward<Args>(args)...);
-}
+// 全局便捷函数已移至Logger类内部
 
 } // namespace common
 } // namespace order_engine

@@ -8,6 +8,9 @@
 #include <windows.h>
 #else
 #include <sys/epoll.h>
+#ifndef EPOLLNVAL
+#define EPOLLNVAL 0x20
+#endif
 #endif
 
 namespace order_engine {

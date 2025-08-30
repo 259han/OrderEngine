@@ -28,7 +28,7 @@ public:
         // 初始化配置
         config_ = std::make_shared<common::Config>();
         if (!config_->load(config_file)) {
-            LOG_ERROR("Failed to load config file: {}", config_file);
+            LOG_ERROR_FMT("Failed to load config file: {}", config_file);
             return false;
         }
         
@@ -102,7 +102,7 @@ public:
 
 private:
     void handleMessage(const network::TcpConnectionPtr& conn, const std::string& message) {
-        LOG_DEBUG("Received message from {}: {}", conn->getPeerAddress(), message);
+        LOG_DEBUG_FMT2("Received message from {}: {}", conn->getPeerAddress(), message);
         
         // 这里应该解析协议消息并路由到相应的服务
         // 简化示例：直接回显
@@ -111,15 +111,15 @@ private:
     
     void handleConnection(const network::TcpConnectionPtr& conn) {
         if (conn->isConnected()) {
-            LOG_INFO("New connection from: {}", conn->getPeerAddress());
+            LOG_INFO_FMT("New connection from: {}", conn->getPeerAddress());
         } else {
-            LOG_INFO("Connection closed: {}", conn->getPeerAddress());
+            LOG_INFO_FMT("Connection closed: {}", conn->getPeerAddress());
         }
     }
     
     void printStats() {
         LOG_INFO("=== OrderEngine Statistics ===");
-        LOG_INFO("Active connections: {}", tcp_server_->getConnectionCount());
+        LOG_INFO_FMT_INT("Active connections: {}", tcp_server_->getConnectionCount());
         // TODO: 添加业务统计 (Phase 2)
         LOG_INFO("==============================");
     }

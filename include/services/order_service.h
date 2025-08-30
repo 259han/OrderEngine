@@ -6,9 +6,10 @@
 #include <functional>
 #include <atomic>
 #include <mutex>
-#include "../database/connection_pool.h"
-#include "../cache/cache_manager.h"
-#include "../message/kafka_producer.h"
+// TODO: 待实现的头文件
+// #include "../database/connection_pool.h"
+// #include "../cache/cache_manager.h"
+// #include "../message/kafka_producer.h"
 
 namespace order_engine {
 namespace services {
@@ -55,9 +56,10 @@ class OrderService {
 public:
     using OrderCallback = std::function<void(bool success, const std::string& message, const OrderInfo& order)>;
 
-    OrderService(std::shared_ptr<database::ConnectionPool> db_pool,
-                 std::shared_ptr<cache::CacheManager> cache_manager,
-                 std::shared_ptr<message::KafkaProducer> kafka_producer);
+    // 临时构造函数，后续会替换为完整版本
+    OrderService(std::shared_ptr<void> db_pool = nullptr,
+                 std::shared_ptr<void> cache_manager = nullptr,
+                 std::shared_ptr<void> kafka_producer = nullptr);
     
     ~OrderService();
 
@@ -106,9 +108,10 @@ private:
     bool updateOrderInDB(const OrderInfo& order);
     bool selectOrderFromDB(uint64_t order_id, OrderInfo& order);
     
-    std::shared_ptr<database::ConnectionPool> db_pool_;
-    std::shared_ptr<cache::CacheManager> cache_manager_;
-    std::shared_ptr<message::KafkaProducer> kafka_producer_;
+    // 临时成员变量，后续会替换为正确类型
+    std::shared_ptr<void> db_pool_;
+    std::shared_ptr<void> cache_manager_;
+    std::shared_ptr<void> kafka_producer_;
     
     // 统计信息
     std::atomic<uint64_t> total_order_count_;

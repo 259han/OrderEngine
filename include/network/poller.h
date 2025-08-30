@@ -3,6 +3,10 @@
 #include <vector>
 #include <unordered_map>
 
+#ifndef _WIN32
+#include <sys/epoll.h>
+#endif
+
 namespace order_engine {
 namespace network {
 
@@ -77,7 +81,7 @@ private:
     static const int kDeleted = 2;
     
     int epoll_fd_;
-    std::vector<struct epoll_event> events_;
+    std::vector<epoll_event> events_;
 };
 #endif
 

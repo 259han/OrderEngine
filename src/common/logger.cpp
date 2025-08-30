@@ -129,6 +129,37 @@ void Logger::critical(const std::string& message) {
     }
 }
 
+// 简单格式化日志接口实现
+void Logger::debug_fmt(const std::string& format, const std::string& arg) {
+    if (logger_) {
+        logger_->debug(format, arg);
+    }
+}
+
+void Logger::info_fmt(const std::string& format, const std::string& arg) {
+    if (logger_) {
+        logger_->info(format, arg);
+    }
+}
+
+void Logger::error_fmt(const std::string& format, const std::string& arg) {
+    if (logger_) {
+        logger_->error(format, arg);
+    }
+}
+
+void Logger::debug_fmt(const std::string& format, const std::string& arg1, const std::string& arg2) {
+    if (logger_) {
+        logger_->debug(format, arg1, arg2);
+    }
+}
+
+void Logger::info_fmt(const std::string& format, int arg) {
+    if (logger_) {
+        logger_->info(format, arg);
+    }
+}
+
 void Logger::setLevel(Level level) {
     if (logger_) {
         spdlog::level::level_enum spdlog_level;
